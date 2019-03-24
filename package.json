@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/server"
+    "start": "nodemon server"
   },
   "keywords": [],
   "author": "",
@@ -12,7 +12,9 @@
   "dependencies": {
     "koa": "^2.7.0",
     "koa-body": "^4.1.0",
+    "koa-logger": "^3.2.0",
     "koa-morgan": "^1.0.1",
+    "koa-mount": "^4.0.0",
     "koa-router": "^7.4.0",
     "mysql2": "^1.6.5",
     "sequelize": "^5.1.0",
