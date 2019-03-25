@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "joi": "^14.3.1",
     "koa": "^2.7.0",
     "koa-body": "^4.1.0",
     "koa-logger": "^3.2.0",
