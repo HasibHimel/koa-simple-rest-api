@@ -1,16 +1,5 @@
-const Joi = require('joi');
-
 const models = require('../../models');
-
-function validation_schema(){
-    const schema = Joi.object().keys({
-    name: Joi.string()
-    .regex(/^[a-zA-Z ]*$/)
-    .required()
-    });
-
-    return schema;
-}
+const validation = require('../validation/team');
 
 exports.get_all_Teams = async (ctx, next) => {
     const teams = await models.Team.findAll()
@@ -34,22 +23,17 @@ exports.get_team_by_id = async (ctx, next) => {
 };
 
 exports.update_team_by_id = async (ctx, next) => {
+    const ctx_body = ctx.request.body.team;
 
-    schema = validation_schema();
+    const error = validation.produce_error(ctx_body);
 
-    const {value, error} = Joi.validate(ctx.request.body.team, schema);
-
-    if (error && error.details) {
-      ctx.status=404;
-      ctx.message="Invalid Input or bad request";
-      ctx.body={
-        error
-      }
+    if (error) {
+      validation.set_ctx_for_error(ctx, error);
     }
     else{
     const id = ctx.params.id
-    let team = await models.Team.findOne({where: { id }})
-    team = await team.update(ctx.request.body.team)
+    let team = await models.Team.findOne({where: { id }});
+    team = await team.update(ctx_body);
     ctx.body = {
       team
     }
@@ -60,19 +44,14 @@ exports.update_team_by_id = async (ctx, next) => {
 };
 
 exports.create_team = async (ctx, next) => {
-    schema = validation_schema();
+    const ctx_body = ctx.request.body.team;
+    const error = validation.produce_error(ctx_body);
 
-    const {value, error} = Joi.validate(ctx.request.body.team, schema);
-
-    if (error && error.details) {
-      ctx.status=404;
-      ctx.message="Invalid Input or bad request";
-      ctx.body={
-        error
-      }
+    if (error) {
+      validation.set_ctx_for_error(ctx, error);
     }
     else{
-      const team = await models.Team.create(ctx.request.body.team)
+      const team = await models.Team.create(ctx_body)
       ctx.body = {
         team
       }

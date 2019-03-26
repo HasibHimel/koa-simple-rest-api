@@ -20,6 +20,7 @@ router.post('/', bodyParser, teamController.create_team);
 router.del('/:id', bodyParser, teamController.delete_team_by_id);
 
 server.use(koa_req_logger());
+server.use(router.allowedMethods());
 server.use(router.routes());
 
 module.exports = server;
