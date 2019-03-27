@@ -1,7 +1,9 @@
 const Koa = require('koa');
 const Router = require('koa-router');
 const bodyParser = require('koa-body')();
-const koa_req_logger = require('koa-logger')
+const koa_req_logger = require('koa-logger');
+const mount = require('koa-mount');
+
 
 const teamController = require('../controllers/team');
 
@@ -19,8 +21,4 @@ router.post('/', bodyParser, teamController.create_team);
   
 router.del('/:id', bodyParser, teamController.delete_team_by_id);
 
-server.use(koa_req_logger());
-server.use(router.allowedMethods());
-server.use(router.routes());
-
-module.exports = server;
+module.exports = router;

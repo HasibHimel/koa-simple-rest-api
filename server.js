@@ -2,9 +2,11 @@ const Koa = require('koa');
 const mount = require('koa-mount');
 
 const logger =  require('./src/logger');
-const server = require('./api/routes/team');
+const team_router = require('./api/routes/team');
 
-const app = new Koa();
+server = new Koa();
 
-app.use(mount('/teams', server));
-app.listen(3000, () => logger.info("server running"));
+server.use(team_router.routes()).use(team_router.allowedMethods());
+server.use(mount('/teams', server));
+
+server.listen(3000, () => logger.info("server running"));
